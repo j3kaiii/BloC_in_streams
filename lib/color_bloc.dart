@@ -30,4 +30,15 @@ class ColorBloc {
     // полученное состояние нужно добавить в исходящий поток
     _outputStateController.sink.add(_color);
   }
+
+  // слушаем входящий поток и обрабатываем события
+  ColorBloc() {
+    _inputEvenController.stream.listen(_mapEventToState);
+  }
+
+  //закрываем потоки
+  void dispose() {
+    _inputEvenController.close();
+    _outputStateController.close();
+  }
 }

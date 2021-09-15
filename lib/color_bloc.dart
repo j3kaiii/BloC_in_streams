@@ -16,4 +16,18 @@ class ColorBloc {
   final _outputStateController = StreamController<Color>();
   // геттер, через stream(исходящий поток) передает данные наружу
   Stream<Color> get outputStateStream => _outputStateController.stream;
+
+  // метод изменяет состояние в зависимости от события
+  void _mapEventToState(ColorEvent event) {
+    if (event == ColorEvent.event_red) {
+      _color = Colors.red;
+    } else if (event == ColorEvent.event_green) {
+      _color = Colors.green;
+    } else {
+      throw Exception('Wrong event type');
+    }
+
+    // полученное состояние нужно добавить в исходящий поток
+    _outputStateController.sink.add(_color);
+  }
 }

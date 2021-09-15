@@ -54,12 +54,18 @@ class _BlocPageState extends State<BlocPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              // во входящий поток bloc передаем событие
+              _bloc.inputEventSink.add(ColorEvent.event_red);
+            },
             backgroundColor: Colors.red,
           ),
           SizedBox(width: 10),
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              // во входящий поток bloc передаем событие
+              _bloc.inputEventSink.add(ColorEvent.event_green);
+            },
             backgroundColor: Colors.green,
           ),
         ],

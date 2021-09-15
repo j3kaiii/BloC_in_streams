@@ -1,3 +1,4 @@
+import 'package:bloc_with_streams/color_bloc.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,6 +23,9 @@ class BlocPage extends StatefulWidget {
 }
 
 class _BlocPageState extends State<BlocPage> {
+  // добавляем bloc в стейт приложения
+  final ColorBloc _bloc = ColorBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +34,21 @@ class _BlocPageState extends State<BlocPage> {
         centerTitle: true,
       ),
       body: Center(
-        child: AnimatedContainer(
-          height: 100,
-          width: 100,
-          color: Colors.red,
-          duration: Duration(milliseconds: 500),
-        ),
+        // изменяемую часть нужно обернуть в StreamBuilder
+        child: StreamBuilder<Color>(
+            // исходящий поток (гетер) с новым состоянием
+            stream: _bloc.outputStateStream,
+            // первоначальное состояние
+            initialData: Colors.red,
+            // строим UI на основе данных (snapshot)
+            builder: (context, snapshot) {
+              return AnimatedContainer(
+                height: 100,
+                width: 100,
+                color: snapshot.data,
+                duration: Duration(milliseconds: 500),
+              );
+            }),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
